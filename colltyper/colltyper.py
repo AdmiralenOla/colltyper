@@ -105,6 +105,9 @@ def sortresults(vote):
         GLpseudo = (GL[0] - 1.0) / (GL[1] - 1.0)
         GL_list.append( (res, truevotes[res]["Read depth"], GLpseudo) )
     sorted_GL_list = sorted(GL_list, key=itemgetter(2), reverse=True)
+    if len(sorted_GL_list) == 0:
+        # No mutations implies lineage 4.9 (NO SNPs against H37Rv)
+        sorted_GL_list.append(("4.9", "N/A", "Implied by lack of mutations vs H37Rv"))
     return sorted_GL_list
 
 
