@@ -1,8 +1,13 @@
 from setuptools import setup
-from __init__ import __version__ as cv
+from distutils.util import convert_path
+
+versionholder = {}
+ver_path = convert_path('colltyper/__init__.py')
+with open(ver_path) as init_file:
+    exec(init_file.read(), versionholder)
 
 setup(name='colltyper',
-    version=cv,
+    version=versionholder['__version__'],
     description='Type TB strains using Coll (2015) scheme',
     classifiers=[
         'Development Status :: 3 - Alpha',
