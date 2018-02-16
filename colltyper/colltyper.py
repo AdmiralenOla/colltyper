@@ -11,7 +11,7 @@ import csv
 import os
 from operator import itemgetter
 from pkg_resources import resource_filename
-from __init__ import __version__# , ROOT_DIR
+from __init__ import __version__
 
 COLL_VERSION = __version__
 
@@ -57,7 +57,11 @@ def ReadClassification(scheme):
         sys.exit(3)
 
     for row in myscheme:
-        schemedic[row[poscol]] = {"Lineage": row[lineagecol].lstrip("lineage"), "Allele": row[allelecol][-1]}
+        # NOTE: 4.9 is reference, so REF/ALT is switched for that lineage and lineage 4
+        if row[lineagecol].lstrip("lineage") == "4.9" or row[lineagecol].lstrip("lineage") == "4":
+            schemedic[row[poscol]] = {"Lineage": row[lineagecol].lstrip("lineage"), "Allele": row[allelecol][0]}
+        else:
+            schemedic[row[poscol]] = {"Lineage": row[lineagecol].lstrip("lineage"), "Allele": row[allelecol][-1]}
         lineages.add(row[lineagecol].lstrip("lineage"))
 
     return schemedic, lineages
