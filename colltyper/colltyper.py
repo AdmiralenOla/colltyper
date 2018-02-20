@@ -40,8 +40,8 @@ def ReadClassification(scheme):
         myscheme = csv.reader(open(scheme,"rU"), skipinitialspace=False,
             delimiter=',')
     except Exception as e:
-        sys.stdout.write(e)
-        sys.stdout.write("Failed to open classification scheme\n")
+        sys.stderr.write(e)
+        sys.stderr.write("Failed to open classification scheme\n")
         sys.exit(2)
 
     schemedic = {}
@@ -53,7 +53,7 @@ def ReadClassification(scheme):
         poscol = header.index("Position")
         allelecol = header.index("Allele change")
     except ValueError:
-        sys.stdout.write("ERROR: The following columns must be in the scheme file: 'lineage', 'Position', 'Allele change'\n")
+        sys.stderr.write("ERROR: The following columns must be in the scheme file: 'lineage', 'Position', 'Allele change'\n")
         sys.exit(3)
 
     for row in myscheme:
@@ -77,7 +77,7 @@ def Classify(vcf_reader, schemedic, lineages):
 
         ref = record.REF
         if len(record.ALT) > 1:
-            sys.stdout.write("WARNING: Multiple variants at position %s, check results carefully\n" % pos)
+            sys.stderr.write("WARNING: Multiple variants at position %s, check results carefully\n" % pos)
         allele = record.ALT[0]
         sample = record.samples[0]
         samplename = sample.sample
@@ -115,21 +115,21 @@ def main():
     args = CollArgumentParser()
 
     if args.fasta:
-        sys.stdout.write("FASTA not supported in this version\n")
+        sys.stderr.write("FASTA not supported in this version\n")
         sys.exit(0)
     else:
         try:
             vcf_reader = vcf.Reader(open(args.vcf,'rU'))
         except:
-            sys.stdout.write("ERROR: Failed to read VCF file. Exiting.\n")
+            sys.stderr.write("ERROR: Failed to read VCF file. Exiting.\n")
             sys.exit(1)
 
     # Read Classification file
     try:
         schemedic, lineages = ReadClassification(args.scheme)
     except:
-        sys.stdout.write(args.scheme)
-        sys.stdout.write("ERROR: Failed to understand classification scheme\n")
+        sys.stderr.write(args.scheme)
+        sys.stderr.write("ERROR: Failed to understand classification scheme\n")
         sys.exit(4)
 
     vote = Classify(vcf_reader, schemedic, lineages)
@@ -140,7 +140,7 @@ def main():
         resultsstring = "\t".join([str(i) for i in r])
         print(resultsstring)
 
-    sys.stdout.write("Thank you for using Colltyper\n")
+    sys.stderr.write("Thank you for using Colltyper\n")
     sys.exit(0)
 
 

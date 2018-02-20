@@ -1,5 +1,5 @@
 #from os.path import dirname
 #import os
 
-__version__ = '0.3'
+__version__ = '0.4'
 #ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
