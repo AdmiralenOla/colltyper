@@ -31,6 +31,9 @@ def CollArgumentParser():
     parser.add_argument('--scheme',
         help='Scheme classification dictionary. (If using non-default)',
         default=os.path.join(resource_filename(__name__,'data/Coll_scheme_classification.csv')))
+    parser.add_argument('-o', '--outfile',
+        help='Output file to write to. (Default = stdout)',
+        default=None)
     args = parser.parse_args()
 
     return args
@@ -110,6 +113,21 @@ def sortresults(vote):
         sorted_GL_list.append(("4.9", "N/A", "Implied by lack of mutations vs H37Rv"))
     return sorted_GL_list
 
+def printResults(sortedvote, outfile):
+    if outfile is None:
+        sys.stdout.write("Lineage\tRead depth\tRel. gen. lik.\n")
+        for r in sortedvote:
+            resultsstring = "\t".join([str(i) for i in r])
+            sys.stdout.write(resultsstring + '\n')
+    else:
+        try:
+            outfile = open(outfile,'w')
+        except:
+            sys.stderr.write("ERROR: Could not open specified outfile\n")
+        outfile.write("Lineage\tRead depth\tRel. gen. lik.\n")
+        for r in sortedvote:
+            resultsstring = "\t".join([str(i) for i in r])
+            outfile.write(resultsstring + '\n')
 
 def main():
     args = CollArgumentParser()
@@ -135,12 +153,9 @@ def main():
     vote = Classify(vcf_reader, schemedic, lineages)
     sortedvote = sortresults(vote)
 
-    print("Lineage\tRead depth\tRel. gen. lik.")
-    for r in sortedvote:
-        resultsstring = "\t".join([str(i) for i in r])
-        print(resultsstring)
+    printResults(sortedvote, args.outfile)
 
-    sys.stderr.write("Thank you for using Colltyper\n")
+    sys.stdout.write("Thank you for using Colltyper\n")
     sys.exit(0)
 
 
