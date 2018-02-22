@@ -33,3 +33,5 @@ setup(name='colltyper',
     package_data={'colltyper': ['LICENSE', 'setup.py','example/*','docs/*','data/*']},
     include_package_data=True
     )
+
+#heihei
