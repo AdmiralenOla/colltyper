@@ -67,6 +67,9 @@ def ReadClassification(scheme):
             schemedic[row[poscol]] = {"Lineage": row[lineagecol].lstrip("lineage"), "Allele": row[allelecol][-1]}
         lineages.add(row[lineagecol].lstrip("lineage"))
 
+    print(schemedic)
+    print(lineages)
+
     return schemedic, lineages
     
 def Classify(vcf_reader, schemedic, lineages):
