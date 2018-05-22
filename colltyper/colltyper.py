@@ -52,8 +52,6 @@ def ReadClassification(scheme):
     header = next(myscheme)
     lineages = set()
 
-    print("Got here")
-
     try:
         lineagecol = header.index("lineage")
         poscol = header.index("Position")
@@ -70,9 +68,6 @@ def ReadClassification(scheme):
         else:
             schemedic[row[poscol]] = {"Lineage": row[lineagecol].lstrip("lineage"), "Allele": row[allelecol][-1]}
         lineages.add(row[lineagecol].lstrip("lineage"))
-
-    print(schemedic)
-    print(lineages)
 
     return schemedic, lineages
     
