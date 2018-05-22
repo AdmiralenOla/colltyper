@@ -11,7 +11,7 @@ import csv
 import os
 from operator import itemgetter
 from pkg_resources import resource_filename
-from __init__ import __version__
+from .__init__ import __version__
 
 COLL_VERSION = __version__
 
