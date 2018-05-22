@@ -39,6 +39,7 @@ def CollArgumentParser():
     return args
 
 def ReadClassification(scheme):
+    print("Reading classification scheme")
     try:
         myscheme = csv.reader(open(scheme,"rU"), skipinitialspace=False,
             delimiter=',')
@@ -48,8 +49,10 @@ def ReadClassification(scheme):
         sys.exit(2)
 
     schemedic = {}
-    header = myscheme.next()
+    header = next(myscheme)
     lineages = set()
+
+    print("Got here")
 
     try:
         lineagecol = header.index("lineage")
@@ -59,6 +62,7 @@ def ReadClassification(scheme):
         sys.stderr.write("ERROR: The following columns must be in the scheme file: 'lineage', 'Position', 'Allele change'\n")
         sys.exit(3)
 
+    
     for row in myscheme:
         # NOTE: 4.9 is reference, so REF/ALT is switched for that lineage and lineage 4
         if row[lineagecol].lstrip("lineage") == "4.9" or row[lineagecol].lstrip("lineage") == "4":
@@ -148,7 +152,8 @@ def main():
     # Read Classification file
     try:
         schemedic, lineages = ReadClassification(args.scheme)
-    except:
+    except Exception as e:
+        sys.stderr.write(e)
         sys.stderr.write(args.scheme)
         sys.stderr.write("ERROR: Failed to understand classification scheme\n")
         sys.exit(4)
