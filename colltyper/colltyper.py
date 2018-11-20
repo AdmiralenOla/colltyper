@@ -113,7 +113,7 @@ def sortresults(vote):
         # 0/1 genotypes
         elif len(GL) == 3:
             GLpseudo = (GL[0] - 1.0) / (GL[2] - 1.0)
-        else
+        else:
             GLpseudo = -1.0
         GL_list.append( (res, truevotes[res]["Read depth"], GLpseudo) )
     sorted_GL_list = sorted(GL_list, key=itemgetter(2), reverse=True)
