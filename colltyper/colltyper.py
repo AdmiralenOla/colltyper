@@ -107,7 +107,14 @@ def sortresults(vote):
     GL_list = []
     for res in truevotes:
         GL = truevotes[res]["Genotype likelihood"]
-        GLpseudo = (GL[0] - 1.0) / (GL[1] - 1.0)
+        # 1/1 genotypes
+        if len(GL) = 2:
+            GLpseudo = (GL[0] - 1.0) / (GL[1] - 1.0)
+        # 0/1 genotypes
+        elif len(GL) = 3:
+            GLpseudo = (GL[0] - 1.0) / (GL[2] - 1.0)
+        else
+            GLpseudo = -1.0
         GL_list.append( (res, truevotes[res]["Read depth"], GLpseudo) )
     sorted_GL_list = sorted(GL_list, key=itemgetter(2), reverse=True)
     if len(sorted_GL_list) == 0:
