@@ -108,10 +108,10 @@ def sortresults(vote):
     for res in truevotes:
         GL = truevotes[res]["Genotype likelihood"]
         # 1/1 genotypes
-        if len(GL) = 2:
+        if len(GL) == 2:
             GLpseudo = (GL[0] - 1.0) / (GL[1] - 1.0)
         # 0/1 genotypes
-        elif len(GL) = 3:
+        elif len(GL) == 3:
             GLpseudo = (GL[0] - 1.0) / (GL[2] - 1.0)
         else
             GLpseudo = -1.0
